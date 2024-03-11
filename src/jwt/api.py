@@ -12,14 +12,14 @@ from sqlalchemy import select
 
 from src.auth.models import User
 from .schemas import LoginModel
-from src.database import session
+from src.database import Session
 
 jwt = Blueprint('jwt', __name__)
 
 @jwt.route('/create', methods=["POST"])
 @validate()
 def create(body: LoginModel):
-    user: Optional[User] = session.query(User).filter_by(email=body.email).one_or_none()
+    user: Optional[User] = Session.query(User).filter_by(email=body.email).one_or_none()
     if (user is None) or (not user.check_password(body.password)):
         return jsonify({
                 "success": False,
@@ -43,16 +43,17 @@ def refresh():
     return jsonify({
             "access": access_token
         }), 200
+    
 
-
-
-
-@jwt.route("/who_am_i", methods=["GET"])
+@jwt.route("/simple", methods=["GET"])
 @jwt_required()
-def protected():
-    print(current_user.email)
-    return jsonify(
-        {
-            
-        }
-    )
+def simple():
+    user = User(username="Ferretik55", email="xoore4ik@gmail.com", password_hash="4242443123dsfg")
+    _user: User = current_user
+    print("_user", _user.email)
+    Session.add(user)
+    Session.commit()
+    
+    return jsonify({
+            "access": "1231",
+        }), 200

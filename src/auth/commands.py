@@ -1,7 +1,7 @@
 import click
 from flask.cli import AppGroup
 
-from src.database import session
+from src.database import Session
 from .models import User
 from sqlalchemy import insert
 auth_cli = AppGroup('auth')
@@ -18,5 +18,5 @@ def create_superuser(email, password):
         is_active=True
     )
     user.password = password
-    session.add(user)
-    session.commit()
+    Session.add(user)
+    Session.commit()

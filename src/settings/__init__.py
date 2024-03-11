@@ -12,6 +12,8 @@ config = dotenv_values(ENV_FILE)
 class DataBaseConfig:
     #postgresql://scott:tiger@localhost/mydatabase
     URI = config.get("DATABASE_URL")
+    TEST_URI = config.get("DATABASE_TEST_URI")
+    DATABASE_URI_WITHOUT_NAME = config.get("DATABASE_URI_WITHOUT_NAME")
     
 
 class ServerConfig:
