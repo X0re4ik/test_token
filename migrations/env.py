@@ -5,8 +5,10 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from src.auth.models import Base
 from src.settings import DATA_BASE_CONFIG
+from src.db.base import Base
+
+
 
 import os
 import sys
@@ -30,7 +32,7 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 target_metadata = [
-    Base.metadata
+    Base.metadata,
 ]
 
 # other values from the config, defined by the needs of env.py,

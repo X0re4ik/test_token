@@ -2,7 +2,7 @@ import click
 from flask.cli import AppGroup
 
 from src.database import Session
-from .models import User
+from src.auth.models import User
 from sqlalchemy import insert
 auth_cli = AppGroup('auth')
 

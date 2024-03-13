@@ -1,9 +1,14 @@
+import logging
+
 from typing import Literal
-from .settings import FLASK_CONFIG
+from .settings import FLASK_CONFIG, LOGGING_CONFIG
 from flask import Flask
 
 
-
+import logging
+import logging.config
+logger = logging.getLogger('prober')
+logging.config.dictConfig(LOGGING_CONFIG.CONFIG)
 
 
 class FlaskApp:
@@ -41,7 +46,6 @@ jwt = JWTManager(app=app)
 
 @jwt.user_identity_loader
 def user_identity_lookup(user: User):
-    print("User.id", user.id)
     return user.id
 
 @jwt.user_lookup_loader

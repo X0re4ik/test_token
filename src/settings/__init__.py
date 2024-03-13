@@ -3,10 +3,13 @@ import datetime
 from dotenv import dotenv_values
 from pathlib import Path
 
+from .logging import LOGGING_CONFIG
+
 
 SRC_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = SRC_DIR.parent
 ENV_FILE = BASE_DIR / ".env"
+
 config = dotenv_values(ENV_FILE)
 
 class DataBaseConfig:
@@ -26,7 +29,10 @@ class JWTConfig:
     REFRESH_TOKEN_EXPIRES = datetime.timedelta(days=30)
     
     ALGORITHM = "HS256"
+    
 
+class LoggingConfig:
+    CONFIG = LOGGING_CONFIG
 
 class FlaskConfig:
     SECRET_KEY = config.get("SECRET_KEY")
@@ -50,4 +56,5 @@ class FlaskConfig:
 
   
 FLASK_CONFIG = FlaskConfig()
+LOGGING_CONFIG = LoggingConfig()
 DATA_BASE_CONFIG = DataBaseConfig()

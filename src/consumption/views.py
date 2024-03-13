@@ -14,7 +14,7 @@ from .schemas import \
     (CreateUserModel, 
      UserPartUpdate, 
      UserModel)
-from src.auth.models import User
+from .models import User
 
 from src.database import Session
 

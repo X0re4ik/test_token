@@ -1,6 +1,6 @@
 import pytest
 from src.main import app as base_flask_app
-from src.database import BASES, Session, engine
+from src.database import Session, engine, Base
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -12,22 +12,23 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 from flask_jwt_extended import create_access_token
-from src.auth.models import Base as AuthBase
+from src.db.base import Base
+
 import contextlib
 
 
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="function")
 def db_session(request):
-    def teardown():
-        with engine.connect() as con:
-            trans = con.begin()
-            for base in BASES:
-                for table in reversed(base.metadata.sorted_tables):
-                    con.execute(table.delete())
-            trans.commit()
-    request.addfinalizer(teardown)
+    # def teardown():
+    #     with engine.connect() as con:
+    #         trans = con.begin()
+    #         for base in [Base]:
+    #             for table in reversed(base.metadata.sorted_tables):
+    #                 con.execute(table.delete())
+    #         trans.commit()
+    # request.addfinalizer(teardown)
     return Session
 
 
@@ -47,7 +48,7 @@ def client(app):
 from src.auth.models import User
 from mixer.backend.sqlalchemy import mixer
 
-@pytest.fixture(scope="function")
+@pytest.fixture
 def super_user():
     user = mixer.blend(
         User,
