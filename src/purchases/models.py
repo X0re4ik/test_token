@@ -34,7 +34,11 @@ class Purchase(Base):
     id: Mapped[str] = mapped_column(primary_key=True)
     
     owner_id: Mapped[int] = mapped_column(
-        ForeignKey("users.id")
+        ForeignKey(
+            "users.id", 
+            ondelete="CASCADE"
+        ),
+        nullable=False,
     )
     
     owner: Mapped[User] = relationship()
@@ -58,10 +62,10 @@ class Purchase(Base):
     tags: Mapped[List["Tag"]] = relationship(secondary=purchases_tags)
     
     @validates("price")
-    def validate_price(self, key, address):
-        if address < 0:
+    def validate_price(self, attr, value):
+        if value < 0:
             raise ValueError("Price must be greater than zero")
-        return address
+        return value
     
     
     
