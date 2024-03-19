@@ -30,7 +30,7 @@ class User(Base):
     is_stuff = Column(Boolean, default=False)
     is_active = Column(Boolean, default=True)
     
-    consumptions = relationship("Consumption", back_populates="user")
+    #consumptions = relationship("Consumption", back_populates="user")
 
     @property
     def password():

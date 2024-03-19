@@ -21,14 +21,14 @@ import contextlib
 
 @pytest.fixture(scope="function")
 def db_session(request):
-    # def teardown():
-    #     with engine.connect() as con:
-    #         trans = con.begin()
-    #         for base in [Base]:
-    #             for table in reversed(base.metadata.sorted_tables):
-    #                 con.execute(table.delete())
-    #         trans.commit()
-    # request.addfinalizer(teardown)
+    def teardown():
+        with engine.connect() as con:
+            trans = con.begin()
+            for base in [Base]:
+                for table in reversed(base.metadata.sorted_tables):
+                    con.execute(table.delete())
+            trans.commit()
+    request.addfinalizer(teardown)
     return Session
 
 
